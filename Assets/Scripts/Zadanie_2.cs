@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Zadanie_2 : MonoBehaviour
 {
-    public float speed = 4.0f;
+    public float speed = 5.0f;
 
     private Vector3 startPosition;
     private Vector3 targetPosition;
