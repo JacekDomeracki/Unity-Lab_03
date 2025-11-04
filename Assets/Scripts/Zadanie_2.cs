@@ -2,28 +2,28 @@ using UnityEngine;
 
 public class Zadanie_2 : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 3.0f;
 
     private Vector3 startPosition;
-    private Vector3 targetPosition;
-    private bool movingForward = true;
+    private float polDystans = 10.0f / 2;     //promień od pozycji początkowej
+    private int zwrotPrawo;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        startPosition = transform.position;
-        targetPosition = startPosition + new Vector3(10f, 0f, 0f);
+        startPosition = transform.position;     //start od pozycji początkowej
+        zwrotPrawo = 1;         //w kierunku w prawo 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 destination = movingForward ? targetPosition : startPosition;
-        transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, destination) < 0.01f)
+        transform.Translate(speed * Time.deltaTime * zwrotPrawo * Vector3.right);       //przesunięcie w kierunku w prawo (1) lub w lewo (dla zwrotPrawo == -1)
+        
+        if (zwrotPrawo * (transform.position - startPosition).x >= polDystans)          //jeżeli pozycja poza promieniem od pozycji początkowej
         {
-            movingForward = !movingForward;
+            transform.position = startPosition + new Vector3(zwrotPrawo * polDystans, 0, 0);       //wyrównanie do długości promienia zgodnie z bieżącym zwrotem
+            zwrotPrawo = -1 * zwrotPrawo;           //zmiana kierunku, tzn. zwrotu na przeciwny
         }
     }
 }
